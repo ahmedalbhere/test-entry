@@ -405,6 +405,7 @@ const progressTextEl = document.getElementById('progress-text');
 
 // تهيئة التطبيق
 function init() {
+    console.log("بدء التطبيق...");
     setupEventListeners();
     loadRandomQuestion();
     updateStats();
@@ -413,9 +414,12 @@ function init() {
 
 // إعداد مستمعي الأحداث
 function setupEventListeners() {
+    console.log("إعداد مستمعي الأحداث...");
+    
     // أزرار التصفية
     filterBtns.forEach(btn => {
         btn.addEventListener('click', () => {
+            console.log("تم النقر على زر التصفية:", btn.dataset.type);
             filterBtns.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             currentFilter = btn.dataset.type;
@@ -427,15 +431,29 @@ function setupEventListeners() {
     // أزرار التحكم
     checkBtn.addEventListener('click', checkAnswer);
     nextBtn.addEventListener('click', loadRandomQuestion);
-    showAnswerBtn.addEventListener('click', showCorrectAnswer);
-    hintBtn.addEventListener('click', showHint);
+    
+    // زر عرض الإجابة (موجود في HTML)
+    if (showAnswerBtn) {
+        showAnswerBtn.addEventListener('click', showCorrectAnswer);
+    }
+    
+    // زر التلميح (موجود في HTML)
+    if (hintBtn) {
+        hintBtn.addEventListener('click', showHint);
+    }
 
-    // تحديث الرصيد عند الكتابة
-    document.addEventListener('input', updateBalance);
+    // تحديث الرصيد عند الكتابة - إصلاح هنا
+    document.addEventListener('input', function(event) {
+        if (event.target.classList.contains('entry-input')) {
+            updateBalance();
+        }
+    });
 }
 
 // تحميل سؤال عشوائي
 function loadRandomQuestion() {
+    console.log("تحميل سؤال عشوائي...", "الفلتر الحالي:", currentFilter);
+    
     // إخفاء النتائج السابقة
     hidePreviousResults();
     
@@ -443,15 +461,17 @@ function loadRandomQuestion() {
     let filteredQuestions = questions;
     if (currentFilter !== "all") {
         filteredQuestions = questions.filter(q => q.type === currentFilter);
+        console.log("الأسئلة المفلترة:", filteredQuestions.length, "نوع:", currentFilter);
     }
     
     // إذا تم استخدام جميع الأسئلة، أفرغ المجموعة
     if (usedQuestions.size >= filteredQuestions.length) {
         usedQuestions.clear();
+        console.log("تم إعادة تعيين الأسئلة المستخدمة");
     }
     
     // اختيار سؤال عشوائي غير مستخدم
-    let availableQuestions = filteredQuestions.filter((q, index) => !usedQuestions.has(q.id));
+    let availableQuestions = filteredQuestions.filter(q => !usedQuestions.has(q.id));
     if (availableQuestions.length === 0) {
         availableQuestions = filteredQuestions;
         usedQuestions.clear();
@@ -459,7 +479,16 @@ function loadRandomQuestion() {
     
     const randomIndex = Math.floor(Math.random() * availableQuestions.length);
     const question = availableQuestions[randomIndex];
+    
+    // البحث عن index السؤال في المصفوفة الأصلية
     currentQuestionIndex = questions.findIndex(q => q.id === question.id);
+    
+    if (currentQuestionIndex === -1) {
+        console.error("لم يتم العثور على السؤال!");
+        return;
+    }
+    
+    console.log("السؤال المحدد:", question.title, "النوع:", question.type);
     
     // إضافة السؤال للمستخدمين
     usedQuestions.add(question.id);
@@ -472,10 +501,15 @@ function loadRandomQuestion() {
     
     // تحديث الإحصائيات
     updateStats();
+    
+    // إخفاء الشرح
+    explanationBoxEl.classList.remove('show');
 }
 
 // تحديث واجهة السؤال
 function updateQuestionUI(question) {
+    console.log("تحديث واجهة السؤال...");
+    
     // نوع السؤال
     let typeText = "";
     switch(question.type) {
@@ -505,6 +539,8 @@ function updateQuestionUI(question) {
 // تحديث واجهة مستوى الصعوبة
 function updateDifficultyUI(difficulty) {
     const difficultyEl = document.getElementById('difficulty');
+    if (!difficultyEl) return;
+    
     const difficultyDot = difficultyEl.querySelector('.difficulty-dot');
     const difficultyText = difficultyEl.querySelector('span:last-child');
     
@@ -528,8 +564,17 @@ function updateDifficultyUI(difficulty) {
     }
 }
 
+// إخفاء النتائج السابقة
+function hidePreviousResults() {
+    resultMessageEl.classList.remove('correct', 'wrong');
+    resultMessageEl.style.display = 'none';
+    correctAnswerEl.classList.remove('show');
+    correctAnswerEl.style.display = 'none';
+}
+
 // إنشاء حقول إدخال القيد
 function createEntryInputs(accounts) {
+    console.log("إنشاء حقول الإدخال... عدد الحسابات:", accounts.length);
     entryRowsEl.innerHTML = '';
     
     accounts.forEach((account, index) => {
@@ -545,7 +590,8 @@ function createEntryInputs(accounts) {
                        placeholder="0" 
                        min="0" 
                        step="1000"
-                       data-index="${index}">
+                       data-index="${index}"
+                       value="">
                 <span class="input-label">مدين</span>
             </div>
             <div class="input-cell">
@@ -555,26 +601,52 @@ function createEntryInputs(accounts) {
                        placeholder="0" 
                        min="0" 
                        step="1000"
-                       data-index="${index}">
+                       data-index="${index}"
+                       value="">
                 <span class="input-label">دائن</span>
             </div>
         `;
         
+        // إضافة مستمعي الأحداث لحقول الإدخال
+        const debitInput = row.querySelector(`#debit-${index}`);
+        const creditInput = row.querySelector(`#credit-${index}`);
+        
+        if (debitInput && creditInput) {
+            debitInput.addEventListener('input', updateBalance);
+            creditInput.addEventListener('input', updateBalance);
+        }
+        
         entryRowsEl.appendChild(row);
     });
+    
+    // تحديث الرصيد بعد إنشاء الحقول
+    setTimeout(updateBalance, 100);
 }
 
 // التحقق من الإجابة
 function checkAnswer() {
+    console.log("التحقق من الإجابة...");
+    
     const question = questions[currentQuestionIndex];
+    if (!question) {
+        console.error("لم يتم العثور على السؤال!");
+        return;
+    }
+    
     let isCorrect = true;
     let totalDebit = 0;
     let totalCredit = 0;
+    let errorMessage = "";
     
     // التحقق من كل حساب
-    question.accounts.forEach((account, index) => {
-        const debitInput = document.getElementById(`debit-${index}`);
-        const creditInput = document.getElementById(`credit-${index}`);
+    for (let i = 0; i < question.accounts.length; i++) {
+        const debitInput = document.getElementById(`debit-${i}`);
+        const creditInput = document.getElementById(`credit-${i}`);
+        
+        if (!debitInput || !creditInput) {
+            console.error("لم يتم العثور على حقول الإدخال للمؤشر:", i);
+            continue;
+        }
         
         const userDebit = parseInt(debitInput.value) || 0;
         const userCredit = parseInt(creditInput.value) || 0;
@@ -584,7 +656,7 @@ function checkAnswer() {
         totalCredit += userCredit;
         
         // التحقق من المبالغ
-        if (userDebit !== account.debit || userCredit !== account.credit) {
+        if (userDebit !== question.accounts[i].debit || userCredit !== question.accounts[i].credit) {
             isCorrect = false;
             debitInput.classList.add('incorrect');
             debitInput.classList.remove('correct');
@@ -596,12 +668,12 @@ function checkAnswer() {
             creditInput.classList.add('correct');
             creditInput.classList.remove('incorrect');
         }
-    });
+    }
     
     // التحقق من توازن القيد
     if (totalDebit !== totalCredit) {
         isCorrect = false;
-        showResult(false, "القيد غير متوازن! مجموع المدين ≠ مجموع الدائن");
+        errorMessage = "القيد غير متوازن! مجموع المدين ≠ مجموع الدائن";
     }
     
     // عرض النتيجة
@@ -609,7 +681,7 @@ function checkAnswer() {
         showResult(true, "ممتاز! القيد صحيح تماماً");
         correctAnswers++;
     } else {
-        showResult(false, "القيد غير صحيح، حاول مرة أخرى");
+        showResult(false, errorMessage || "القيد غير صحيح، حاول مرة أخرى");
         wrongAnswers++;
     }
     
@@ -625,14 +697,20 @@ function showResult(isCorrect, message) {
     resultMessageEl.textContent = message;
     resultMessageEl.className = 'result-message';
     resultMessageEl.classList.add(isCorrect ? 'correct' : 'wrong');
+    resultMessageEl.style.display = 'block';
     
     // إخفاء الإجابة الصحيحة إذا كانت موجودة
     correctAnswerEl.classList.remove('show');
+    correctAnswerEl.style.display = 'none';
 }
 
 // عرض الإجابة الصحيحة
 function showCorrectAnswer() {
+    console.log("عرض الإجابة الصحيحة...");
+    
     const question = questions[currentQuestionIndex];
+    if (!question) return;
+    
     let answerHTML = '<div class="answer-header">القيد الصحيح:</div>';
     
     question.accounts.forEach(account => {
@@ -659,10 +737,19 @@ function showCorrectAnswer() {
     
     correctAnswerEl.innerHTML = answerHTML;
     correctAnswerEl.classList.add('show');
+    correctAnswerEl.style.display = 'block';
     
     // إضافة الأنماط للعرض
-    const style = document.createElement('style');
-    style.textContent = `
+    const styleId = 'answer-styles';
+    let styleEl = document.getElementById(styleId);
+    
+    if (!styleEl) {
+        styleEl = document.createElement('style');
+        styleEl.id = styleId;
+        document.head.appendChild(styleEl);
+    }
+    
+    styleEl.textContent = `
         .answer-header {
             font-weight: bold;
             color: var(--primary);
@@ -670,92 +757,3 @@ function showCorrectAnswer() {
             font-size: 1.1rem;
             text-align: center;
         }
-        .answer-row {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr;
-            gap: 1rem;
-            padding: 0.75rem;
-            background: white;
-            border-radius: 8px;
-            margin-bottom: 0.5rem;
-            border: 1px solid var(--border-color);
-            text-align: center;
-        }
-        .answer-total {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr;
-            gap: 1rem;
-            padding: 1rem;
-            background: var(--primary);
-            color: white;
-            border-radius: 8px;
-            font-weight: bold;
-            margin-top: 1rem;
-            text-align: center;
-        }
-        .debit-amount, .credit-amount {
-            font-weight: bold;
-        }
-        .total-debit, .total-credit {
-            background: rgba(255,255,255,0.1);
-            padding: 0.5rem;
-            border-radius: 4px;
-        }
-    `;
-    document.head.appendChild(style);
-}
-
-// عرض التلميح
-function showHint() {
-    const hintBox = document.querySelector('.hint-box');
-    hintBox.style.animation = 'pulse 0.5s';
-    setTimeout(() => {
-        hintBox.style.animation = '';
-    }, 500);
-}
-
-// تحديث الرصيد
-function updateBalance() {
-    let totalDebit = 0;
-    let totalCredit = 0;
-    
-    // حساب مجموع المدين والدائن من المدخلات
-    const debitInputs = document.querySelectorAll('.debit-input');
-    const creditInputs = document.querySelectorAll('.credit-input');
-    
-    debitInputs.forEach(input => {
-        totalDebit += parseInt(input.value) || 0;
-    });
-    
-    creditInputs.forEach(input => {
-        totalCredit += parseInt(input.value) || 0;
-    });
-    
-    // تحديث القيم المعروضة
-    totalDebitEl.textContent = totalDebit.toLocaleString();
-    totalCreditEl.textContent = totalCredit.toLocaleString();
-    displayDebitEl.textContent = totalDebit.toLocaleString();
-    displayCreditEl.textContent = totalCredit.toLocaleString();
-    
-    // تحديث حالة التوازن
-    if (totalDebit === totalCredit && totalDebit > 0) {
-        balanceStatusEl.innerHTML = '<i class="fas fa-check-circle"></i><span>متوازن</span>';
-        balanceStatusEl.className = 'balance-status balanced';
-    } else {
-        balanceStatusEl.innerHTML = '<i class="fas fa-times-circle"></i><span>غير متوازن</span>';
-        balanceStatusEl.className = 'balance-status unbalanced';
-    }
-}
-
-// تحديث الإحصائيات
-function updateStats() {
-    // تحديث الأعداد
-    correctCountEl.textContent = correctAnswers;
-    wrongCountEl.textContent = wrongAnswers;
-    totalAnsweredEl.textContent = totalAnswered;
-    
-    // حساب نسبة النجاح
-    const successRate = totalAnswered > 0 ? Math.round((correctAnswers / totalAnswered) * 100) : 0;
-    successRateEl.textContent = successRate + '%';
-    
-    // تحديث شريط التقدم
