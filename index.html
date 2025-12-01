@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة تدريب المحاسبة المتقدمة</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(90deg, #1a237e 0%, #283593 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .company-logo {
+            font-size: 24px;
+            font-weight: bold;
+            padding: 8px 20px;
+            border-radius: 30px;
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .company-1 {
+            background-color: rgba(33, 150, 243, 0.3);
+        }
+        
+        .company-2 {
+            background-color: rgba(76, 175, 80, 0.3);
+        }
+        
+        header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        }
+        
+        header p {
+            opacity: 0.9;
+            font-size: 18px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+            padding: 0 20px;
+        }
+        
+        .control-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            background-color: #3949ab;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .control-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .active-btn {
+            background-color: #00c853;
+        }
+        
+        .main-content {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 25px;
+            gap: 25px;
+        }
+        
+        .operation-section {
+            flex: 3;
+            min-width: 300px;
+            background-color: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .entry-section {
+            flex: 2;
+            min-width: 300px;
+            background-color: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border: 2px solid #e3e9ff;
+        }
+        
+        .section-title {
+            color: #1a237e;
+            border-bottom: 3px solid #3949ab;
+            padding-bottom: 12px;
+            margin-bottom: 25px;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .operation-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+        }
+        
+        .operation-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .company-tag {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .company-bahiry {
+            background-color: #e3f2fd;
+            color: #1565c0;
+            border-right: 4px solid #2196f3;
+        }
+        
+        .company-aga {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border-right: 4px solid #4caf50;
+        }
+        
+        .operation-title {
+            color: #0d47a1;
+            font-size: 22px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .operation-desc {
+            font-size: 19px;
+            line-height: 1.8;
+            background-color: #f8fdff;
+            padding: 20px;
+            border-radius: 10px;
+            border-right: 5px solid #2196f3;
+            margin-bottom: 20px;
+        }
+        
+        .entry-type {
+            font-size: 18px;
+            color: #5d4037;
+            font-weight: bold;
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #fff3e0;
+            border-radius: 8px;
+            display: inline-block;
+        }
+        
+        .journal-entry {
+            background-color: #f5f9ff;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid #bbdefb;
+        }
+        
+        .entry-header {
+            display: flex;
+            background: linear-gradient(90deg, #1a237e 0%, #3949ab 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        
+        .header-account {
+            width: 50%;
+        }
+        
+        .header-amount {
+            width: 50%;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .header-debit, .header-credit {
+            width: 48%;
+            text-align: center;
+        }
+        
+        .entry-row {
+            display: flex;
+            margin-bottom: 15px;
+            align-items: center;
+            padding: 10px;
+            border-radius: 8px;
+            background-color: white;
+            transition: all 0.3s;
+        }
+        
+        .entry-row:hover {
+            background-color: #f0f7ff;
+        }
+        
+        .account-label {
+            width: 50%;
+            font-weight: bold;
+            color: #1a237e;
+            font-size: 17px;
+        }
+        
+        .debit-credit {
+            display: flex;
+            width: 50%;
+            justify-content: space-between;
+        }
+        
+        .debit, .credit {
+            width: 48%;
+        }
+        
+        .entry-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 17px;
+            text-align: center;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .entry-input:focus {
+            outline: none;
+            border-color: #3949ab;
+            box-shadow: 0 0 0 3px rgba(57, 73, 171, 0.2);
+        }
+        
+        .buttons-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .action-btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            min-width: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .check-btn {
+            background: linear-gradient(90deg, #00c853 0%, #64dd17 100%);
+            color: white;
+        }
+        
+        .check-btn:hover {
+            background: linear-gradient(90deg, #00e676 0%, #76ff03 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(0, 200, 83, 0.3);
+        }
+        
+        .show-btn {
+            background: linear-gradient(90deg, #ff9800 0%, #ffb74d 100%);
+            color: white;
+        }
+        
+        .show-btn:hover {
+            background: linear-gradient(90deg, #ffb300 0%, #ffca28 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(255, 152, 0, 0.3);
+        }
+        
+        .next-btn {
+            background: linear-gradient(90deg, #2196f3 0%, #03a9f4 100%);
+            color: white;
+        }
+        
+        .next-btn:hover {
+            background: linear-gradient(90deg, #03a9f4 0%, #00bcd4 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(33, 150, 243, 0.3);
+        }
+        
+        .result-container {
+            margin-top: 30px;
+        }
+        
+        .result {
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .correct {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border: 3px solid #4caf50;
+        }
+        
+        .incorrect {
+            background-color: #ffebee;
+            color: #c62828;
+            border: 3px solid #f44336;
+        }
+        
+        .correct-answer {
+            background-color: #e3f2fd;
+            color: #1565c0;
+            border: 3px solid #2196f3;
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .stat-box {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-value {
+            font-size: 36px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .stat-label {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .entry-explanation {
+            background-color: #fff8e1;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border-right: 5px solid #ffb300;
+        }
+        
+        .explanation-title {
+            color: #ff6f00;
+            font-size: 20px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 25px;
+            background-color: #1a237e;
+            color: white;
+            margin-top: 30px;
+        }
+        
+        .complex-indicator {
+            display: inline-block;
+            padding: 5px 15px;
+            background-color: #f48fb1;
+            color: #880e4f;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        
+        @media (max-width: 1100px) {
+            .main-content {
+                flex-direction: column;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .control-btn {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .header-account, .account-label {
+                width: 40%;
+            }
+            
+            .header-amount, .debit-credit {
+                width: 60%;
+            }
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <div class="company-logo company-1">شركة البحيري</div>
+                <div class="company-logo company-2">شركة A.G.Ali</div>
+            </div>
+            <h1><i class="fas fa-calculator"></i> منصة تدريب المحاسبة المتقدمة</h1>
+            <p>تدريب شامل على القيود اليومية - قيود التسوية - قيود الإقفال (عامة ومساعدة ومركبة)</p>
+            
+            <div class="controls">
+                <button class="control-btn active-btn" id="dailyBtn">
+                    <i class="fas fa-book"></i> القيود اليومية
+                </button>
+                <button class="control-btn" id="adjustingBtn">
+                    <i class="fas fa-balance-scale"></i> قيود التسوية
+                </button>
+                <button class="control-btn" id="closingBtn">
+                    <i class="fas fa-lock"></i> قيود الإقفال
+                </button>
+                <button class="control-btn" id="mixedBtn">
+                    <i class="fas fa-random"></i> قيود مختلطة
+                </button>
+            </div>
+        </header>
+        
+        <div class="main-content">
+            <div class="operation-section">
+                <h2 class="section-title"><i class="fas fa-file-invoice-dollar"></i> العملية المالية</h2>
+                
+                <div class="operation-card">
+                    <div class="company-tag company-bahiry">شركة البحيري</div>
+                    <h3 class="operation-title" id="operationTitle">عملية يومية عادية</h3>
+                    <p class="operation-desc" id="operationDesc">يتم تحميل الوصف هنا...</p>
+                    <div class="entry-type" id="entryType">نوع القيد: يومي عادي</div>
+                    
+                    <div class="entry-explanation" id="explanation">
+                        <div class="explanation-title"><i class="fas fa-lightbulb"></i> شرح القيد</div>
+                        <p id="explanationText">سيتم عرض شرح القيد هنا بعد التحقق من الإجابة</p>
+                    </div>
+                </div>
+                
+                <div class="result-container">
+                    <div class="result" id="resultMessage">
+                        <!-- سيتم ملؤها بواسطة JavaScript -->
+                    </div>
+                    
+                    <div class="correct-answer" id="correctAnswer">
+                        <!-- سيتم ملؤها بواسطة JavaScript -->
+                    </div>
+                </div>
+                
+                <div class="stats-container">
+                    <div class="stat-box">
+                        <div class="stat-label">الأسئلة المجابة</div>
+                        <div class="stat-value" id="totalQuestions">0</div>
+                    </div>
+                    <div class="stat-box" style="background: linear-gradient(135deg, #00b09b 0%, #96c93d 100%);">
+                        <div class="stat-label">الإجابات الصحيحة</div>
+                        <div class="stat-value" id="correctAnswers">0</div>
+                    </div>
+                    <div class="stat-box" style="background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);">
+                        <div class="stat-label">الإجابات الخاطئة</div>
+                        <div class="stat-value" id="incorrectAnswers">0</div>
+                    </div>
+                    <div class="stat-box" style="background: linear-gradient(135deg, #8e2de2 0%, #4a00e0 100%);">
+                        <div class="stat-label">نسبة النجاح</div>
+                        <div class="stat-value" id="successRate">0%</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="entry-section">
+                <h2 class="section-title"><i class="fas fa-edit"></i> تسجيل القيد المحاسبي</h2>
+                
+                <div class="journal-entry">
+                    <div class="entry-header">
+                        <div class="header-account">الحساب</div>
+                        <div class="header-amount">
+                            <div class="header-debit">مدين</div>
+                            <div class="header-credit">دائن</div>
+                        </div>
+                    </div>
+                    
+                    <div id="entryRowsContainer">
+                        <!-- سيتم إنشاء صفوف الإدخال ديناميكياً -->
+                    </div>
+                </div>
+                
+                <div class="buttons-container">
+                    <button class="action-btn check-btn" id="checkBtn">
+                        <i class="fas fa-check-circle"></i> تحقق من القيد
+                    </button>
+                    <button class="action-btn show-btn" id="showAnswerBtn">
+                        <i class="fas fa-eye"></i> عرض الإجابة
+                    </button>
+                    <button class="action-btn next-btn" id="nextBtn">
+                        <i class="fas fa-forward"></i> سؤال عشوائي
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2023 منصة تدريب المحاسبة المتقدمة - شركة البحيري وشركة A.G.Ali</p>
+            <p>تم تصميم المنصة لتدريب طلاب المحاسبة على جميع أنواع القيود المحاسبية</p>
+        </footer>
+    </div>
+
+    <script>
+        // قاعدة بيانات ضخمة للأسئلة (قيود يومية، تسوية، إقفال)
+        const allQuestions = {
+            daily: [
+                {
+                    id: 1,
+                    company: "شركة البحيري",
+                    title: "عملية شراء أصول",
+                    description: "في 1 يناير 2023، قامت شركة البحيري بشراء معدات مكتبية (أصول ثابتة) نقداً بمبلغ 75,000 جنيه",
+                    type: "يومية عادية",
+                    entryType: "عامة",
+                    accounts: [
+                        { name: "أ. المعدات المكتبية", debit: 75000, credit: 0 },
+                        { name: "أ. النقدية", debit: 0, credit: 75000 }
+                    ],
+                    explanation: "قيد شراء أصل ثابت (معدات مكتبية) نقداً: المدين (المعدات المكتبية) زيادة في الأصول، الدائن (النقدية) نقص في الأصول."
+                },
+                {
+                    id: 2,
+                    company: "شركة A.G.Ali",
+                    title: "عملية بيع بضاعة",
+                    description: "في 5 يناير 2023، باعت شركة A.G.Ali بضاعة بقيمة 45,000 جنيه نقداً كانت تكلفتها 30,000 جنيه",
+                    type: "يومية عادية",
+                    entryType: "مساعدة",
+                    accounts: [
+                        { name: "أ. النقدية", debit: 45000, credit: 0 },
+                        { name: "أ. بضاعة", debit: 0, credit: 30000 },
+                        { name: "أ. أرباح المبيعات", debit: 0, credit: 15000 }
+                    ],
+                    explanation: "قيد بيع بضاعة نقداً: المدين (النقدية) زيادة في الأصول، والدائن الأول (بضاعة) نقص في الأصول، والدائن الثاني (أرباح المبيعات) زيادة في حقوق الملكية."
+                },
+                {
+                    id: 3,
+                    company: "شركة البحيري",
+                    title: "شراء بضاعة بالآجل",
+                    description: "في 10 يناير 2023، قامت شركة البحيري بشراء بضاعة من شركة النور بقيمة 60,000 جنيه بالآجل",
+                    type: "يومية عادية",
+                    entryType: "مركبة",
+                    accounts: [
+                        { name: "أ. بضاعة", debit: 60000, credit: 0 },
+                        { name: "أ. دائنون (شركة النور)", debit: 0, credit: 60000 }
+                    ],
+                    explanation: "قيد شراء بضاعة بالآجل: المدين (بضاعة) زيادة في الأصول، والدائن (دائنون) زيادة في الخصوم."
+                },
+                {
+                    id: 4,
+                    company: "شركة A.G.Ali",
+                    title: "سداد دين",
+                    description: "في 15 يناير 2023، سددت شركة A.G.Ali جزءاً من دينها لشركة النور بقيمة 25,000 جنيه نقداً",
+                    type: "يومية عادية",
+                    entryType: "مساعدة",
+                    accounts: [
+                        { name: "أ. دائنون (شركة النور)", debit: 25000, credit: 0 },
+                        { name: "أ. النقدية", debit: 0, credit: 25000 }
+                    ],
+                    explanation: "قيد سداد دين: المدين (دائنون) نقص في الخصوم، والدائن (النقدية) نقص في الأصول."
+                },
+                {
+                    id: 5,
+                    company: "شركة البحيري",
+                    title: "تحصيل إيراد",
+                    description: "في 20 يناير 2023، قامت شركة البحيري بتقديم خدمات استشارية وتحصلت على إيراد 35,000 جنيه نقداً",
+                    type: "يومية عادية",
+                    entryType: "عامة",
+                    accounts: [
+                        { name: "أ. النقدية", debit: 35000, credit: 0 },
+                        { name: "أ. إيراد خدمات", debit: 0, credit: 35000 }
+                    ],
+                    explanation: "قيد تحصيل إيراد خدمات: المدين (النقدية) زيادة في الأصول، والدائن (إيراد خدمات) زيادة في حقوق الملكية."
+                },
+                {
+                    id: 6,
+                    company: "شركة A.G.Ali",
+                    title: "سداد مصروفات",
+                    description: "في 25 يناير 2023، قامت شركة A.G.Ali بسداد مصروفات كهرباء بقيمة 8,000 جنيه نقداً",
+                    type: "يومية عادية",
+                    entryType: "مساعدة",
+                    accounts: [
+                        { name: "أ. مصروف كهرباء", debit: 8000, credit: 0 },
+                        { name: "أ. النقدية", debit: 0, credit: 8000 }
+                    ],
+                    explanation: "قيد سداد مصروفات: المدين (مصروف كهرباء) زيادة في المصروفات (نقص في حقوق الملكية)، والدائن (النقدية) نقص في الأصول."
+                }
+            ],
+            adjusting: [
+                {
+                    id: 7,
+                    company: "شركة البحيري",
+                    title: "تسوية المصروفات المدفوعة مقدماً",
+                    description: "في 31 يناير 2023، تبين أن 15,000 جنيه من إيجار مدفوع مقدماً قد استهلكت بالفعل (كان الرصيد الأصلي 45,000 جنيه)",
+                    type: "تسوية",
+                    entryType: "مركبة",
+                    accounts: [
+                        { name: "أ. مصروف الإيجار", debit: 15000, credit: 0 },
+                        { name: "أ. إيجار مدفوع مقدماً", debit: 0, credit: 15000 }
+                    ],
+                    explanation: "قيد تسوية المصروفات المدفوعة مقدماً: تحويل جزء من الإيجار المدفوع مقدماً إلى مصروف إيجار."
+                },
+                {
+                    id: 8,
+                    company: "شركة A.G.Ali",
+                    title: "تسوية الإيرادات المستحقة",
+                    description: "في 31 يناير 2023، تبين وجود إيرادات خدمات مستحقة القبض بقيمة 22,000 جنيه لم تسجل بعد",
+                    type: "تسوية",
+                    entryType: "مساعدة",
+                    accounts: [
+                        { name: "أ. إيرادات مستحقة القبض", debit: 22000, credit: 0 },
+                        { name: "أ. إيراد خدمات", debit: 0, credit: 22000 }
+                    ],
+                    explanation: "قيد تسوية الإيرادات المستحقة: تسجيل إيرادات تمت ولكن لم تحصل بعد."
+                },
+                {
+                    id: 9,
+                    company: "شركة البحيري",
+                    title: "تسوية اهلاك الأصول",
+                    description: "في 31 يناير 2023، يلزم اهلاك المعدات المكتبية بمبلغ 5,000 جنيه (طريقة القسط الثابت)",
+                    type: "تسوية",
+                    entryType: "عامة",
+                    accounts: [
+                        { name: "أ. مصروف اهلاك المعدات", debit: 5000, credit: 0 },
+                        { name: "أ. مجمع اهلاك المعدات", debit: 0, credit: 5000 }
+                    ],
+                    explanation: "قيد تسوية اهلاك الأصول: توزيع تكلفة الأصل على الفترات المستفيدة منه."
+                },
+                {
+                    id: 10,
+                    company: "شركة A.G.Ali",
+                    title: "تسوية المصروفات المستحقة",
+                    description: "في 31 يناير 2023، تبين وجود مصروفات مرتبات مستحقة الدفع بقيمة 18,000 جنيه لم تسجل بعد",
+                    type: "تسوية",
+                    entryType: "مساعدة",
+                    accounts: [
+                        { name: "أ. مصروف المرتبات", debit: 18000, credit: 0 },
+                        { name: "أ. مرتتبات مستحقة الدفع", debit: 0, credit: 18000 }
+                    ],
+                    explanation: "قيد تسوية المصروفات المستحقة: تسجيل مصروفات تمت ولكن لم تدفع بعد."
+                }
+            ],
+            closing: [
+                {
+                    id: 11,
+                    company: "شركة البحيري",
+                    title: "قيد إقفال الإيرادات",
+                    description: "في 31 ديسمبر 2023، بلغ إجمالي إيرادات شركة البحيري 850,000 جنيه، قم بإعداد قيد إقفال الإيرادات",
+                    type: "إقفال",
+                    entryType: "مركبة",
+                    accounts: [
+                        { name: "أ. إيراد المبيعات", debit: 550000, credit: 0 },
+                        { name: "أ. إيراد خدمات", debit: 300000, credit: 0 },
+                        { name: "أ. ملخص الدخل", debit: 0, credit: 850000 }
+                    ],
+                    explanation: "قيد إقفال الإيرادات: تحويل أرصدة حسابات الإيرادات إلى حساب ملخص الدخل."
+                },
+                {
+                    id: 12,
+                    company: "شركة A.G.Ali",
+                    title: "قيد إقفال المصروفات",
+                    description: "في 31 ديسمبر 2023، بلغ إجمالي مصروفات شركة A.G.Ali 620,000 جنيه (مرتبات 300,000، إيجار 120,000، كهرباء 80,000، اهلاك 120,000)",
+                    type: "إقفال",
+                    entryType: "مساعدة",
+                    accounts: [
+                        { name: "أ. ملخص الدخل", debit: 620000, credit: 0 },
+                        { name: "أ. مصروف المرتبات", debit: 0, credit: 300000 },
+                        { name: "أ. مصروف الإيجار", debit: 0, credit: 120000 },
+                        { name: "أ. مصروف الكهرباء", debit: 0, credit: 80000 },
+                        { name: "أ. مصروف الاهلاك", debit: 0, credit: 120000 }
+                    ],
+                    explanation: "قيد إقفال المصروفات: تحويل أرصدة حسابات المصروفات إلى حساب ملخص الدخل."
+                },
+                {
+                    id: 13,
+                    company: "شركة البحيري",
+                    title: "قيد إقفال صافي الدخل",
+                    description: "في 31 ديسمبر 2023، بعد إقفال الإيرادات والمصروفات، بلغ صافي الدخل 230,000 جنيه، قم بإقفاله في حساب الأرباح المحتجزة",
+                    type: "إقفال",
+                    entryType: "عامة",
+                    accounts: [
+                        { name: "أ. ملخص الدخل", debit: 230000, credit: 0 },
+                        { name: "أ. أرباح محتجزة", debit: 0, credit: 230000 }
+                    ],
+                    explanation: "قيد إقفال صافي الدخل: تحويل رصيد ملخص الدخل (صافي الدخل) إلى أرباح محتجزة."
+                },
+                {
+                    id: 14,
+                    company: "شركة A.G.Ali",
+                    title: "قيد إقفال المسحوبات",
+                    description: "في 31 ديسمبر 2023، بلغ رصيد مسحوبات المالك 90,000 جنيه، قم بإقفاله في حساب الأرباح المحتجزة",
+                    type: "إقفال",
+                    entryType: "مساعدة",
+                    accounts: [
+                        { name: "أ. أرباح محتجزة", debit: 90000, credit: 0 },
+                        { name: "أ. مسحوبات المالك", debit: 0, credit: 90000 }
+                    ],
+                    explanation: "قيد إقفال المسحوبات: تحويل رصيد مسحوبات المالك إلى أرباح محتجزة."
+                }
+            ],
+            mixed: [
+                {
+                    id: 15,
+                    company: "شركة البحيري",
+                    title: "عملية مركبة (يومية + تسوية)",
+                    description: "في 15 فبراير 2023، قامت شركة البحيري بدفع إيجار سنة كاملة مقدماً بقيمة 120,000 جنيه نقداً. في نهاية الشهر، قم بتسوية المصروف المدفوع مقدماً",
+                    type: "مختلط",
+                    entryType: "مركبة",
+                    accounts: [
+                        { name: "أ. إيجار مدفوع مقدماً", debit: 120000, credit: 0 },
+                        { name: "أ. النقدية", debit: 0, credit: 120000 },
+                        { name: "أ. مصروف الإيجار", debit: 10000, credit: 0 },
+                        { name: "أ. إيجار مدفوع مقدماً", debit: 0, credit: 10000 }
+                    ],
+                    explanation: "عملية مركبة: القيد الأول يومي (دفع إيجار مقدماً)، القيد الثاني تسوية (تحويل جزء من الإيجار المدفوع مقدماً إلى مصروف)."
+                },
+                {
+                    id: 16,
+                    company: "شركة A.G.Ali",
+                    title: "عملية مركبة (تسوية + إقفال)",
+                    description: "في 31 ديسمبر 2023، بعد تسوية اهلاك الأصول بمبلغ 25,000 جنيه، قم بإقفال مصروف الاهلاك ضمن قيد إقفال المصروفات (بافتراض إجمالي مصروفات 500,000 جنيه)",
+                    type: "مختلط",
+                    entryType: "مساعدة",
+                    accounts: [
+                        { name: "أ. مصروف الاهلاك", debit: 25000, credit: 0 },
+                        { name: "أ. مجمع الاهلاك", debit: 0, credit: 25000 },
+                        { name: "أ. ملخص الدخل", debit: 500000, credit: 0 },
+                        { name: "أ. مصروف الاهلاك", debit: 0, credit: 25000 },
+                        { name: "أ. مصروف آخر 1", debit: 0, credit: 200000 },
+                        { name: "أ. مصروف آخر 2", debit: 0, credit: 275000 }
+                    ],
+                    explanation: "عملية مركبة: القيد الأول تسوية (اهلاك)، القيد الثاني إقفال (إقفال المصروفات)."
+                }
+            ]
+        };
+
+        // متغيرات التتبع
+        let currentQuestionType = 'daily';
+        let currentQuestions = [...allQuestions.daily];
+        let currentQuestionIndex = 0;
+        let correctCount = 0;
+        let incorrectCount = 0;
+        let totalAnswered = 0;
+        
+        // عناصر DOM
+        const dailyBtn = document.getElementById('dailyBtn');
+        const adjustingBtn = document.getElementById('adjustingBtn');
+        const closingBtn = document.getElementById('closingBtn');
+        const mixedBtn = document.getElementById('mixedBtn');
+        const operationTitle = document.getElementById('operationTitle');
+        const operationDesc = document.getElementById('operationDesc');
+        const entryType = document.getElementById('entryType');
+        const explanationText = document.getElementById('explanationText');
+        const entryRowsContainer = document.getElementById('entryRowsContainer');
+        const checkBtn = document.getElementById('checkBtn');
+        const showAnswerBtn = document.getElementById('showAnswerBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const resultMessage = document.getElementById('resultMessage');
+        const correctAnswer = document.getElementById('correctAnswer');
+        const totalQuestionsEl = document.getElementById('totalQuestions');
+        const
