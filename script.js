@@ -1,6 +1,6 @@
-// قاعدة بيانات الأسئلة (50 سؤال)
-const questionsDatabase = [
-    // === 20 سؤال يومية ===
+// مصفوفة الأسئلة (بدون الترقيم)
+const questions = [
+    // === اليومية ===
     {
         id: 1,
         type: "daily",
@@ -13,7 +13,7 @@ const questionsDatabase = [
             { name: "أ. المعدات المكتبية", debit: 85000, credit: 0 },
             { name: "أ. النقدية", debit: 0, credit: 85000 }
         ],
-        explanation: "قيد شراء أصل ثابت نقداً: المدين (المعدات المكتبية) زيادة في الأصول، الدائن (النقدية) نقص في الأصول. القيد متوازن حيث المدين = الدائن = 85,000 جنيه."
+        explanation: "قيد شراء أصل ثابت نقداً: المدين (المعدات المكتبية) زيادة في الأصول، الدائن (النقدية) نقص في الأصول."
     },
     {
         id: 2,
@@ -145,158 +145,10 @@ const questionsDatabase = [
         ],
         explanation: "قيد قبض إيراد مقدماً: المدين (النقدية) زيادة في الأصول، الدائن (إيراد مقدم) زيادة في الخصوم (التزام)."
     },
+
+    // === التسوية ===
     {
         id: 11,
-        type: "daily",
-        difficulty: "medium",
-        company: "شركة البحيري",
-        title: "شراء أرض نقداً",
-        description: "شراء قطعة أرض (أصل ثابت) للاستثمار نقداً بمبلغ 500,000 جنيه",
-        hint: "الأرض أصل ثابت، الدفع نقداً",
-        accounts: [
-            { name: "أ. الأرض", debit: 500000, credit: 0 },
-            { name: "أ. النقدية", debit: 0, credit: 500000 }
-        ],
-        explanation: "قيد شراء أرض نقداً: المدين (الأرض) زيادة في الأصول، الدائن (النقدية) نقص في الأصول."
-    },
-    {
-        id: 12,
-        type: "daily",
-        difficulty: "hard",
-        company: "شركة A.G.Ali",
-        title: "بيع أصل ثابت",
-        description: "بيع سيارة شركة (أصل ثابت) كانت قيمتها الدفترية 120,000 جنيه بمبلغ 150,000 جنيه نقداً",
-        hint: "سعر البيع أكبر من القيمة الدفترية = ربح",
-        accounts: [
-            { name: "أ. النقدية", debit: 150000, credit: 0 },
-            { name: "أ. الأصل الثابت (سيارة)", debit: 0, credit: 120000 },
-            { name: "أ. ربح بيع الأصل", debit: 0, credit: 30000 }
-        ],
-        explanation: "قيد بيع أصل ثابت بربح: المدين (النقدية) زيادة الأصول، الدائن الأول (الأصل) نقص الأصول، الدائن الثاني (الربح) زيادة حقوق الملكية."
-    },
-    {
-        id: 13,
-        type: "daily",
-        difficulty: "medium",
-        company: "شركة البحيري",
-        title: "سحب مالك نقداً",
-        description: "سحب المالك مبلغ 20,000 جنيه نقداً للاستخدام الشخصي",
-        hint: "السحب يقلل حقوق الملكية ويقلل النقدية",
-        accounts: [
-            { name: "أ. مسحوبات المالك", debit: 20000, credit: 0 },
-            { name: "أ. النقدية", debit: 0, credit: 20000 }
-        ],
-        explanation: "قيد سحب مالك: المدين (مسحوبات) نقص في حقوق الملكية، الدائن (النقدية) نقص في الأصول."
-    },
-    {
-        id: 14,
-        type: "daily",
-        difficulty: "easy",
-        company: "شركة A.G.Ali",
-        title: "إيداع رأس مال نقداً",
-        description: "إيداع المالك مبلغ 100,000 جنيه نقداً كزيادة في رأس المال",
-        hint: "زيادة رأس المال تزيد حقوق الملكية وتزيد النقدية",
-        accounts: [
-            { name: "أ. النقدية", debit: 100000, credit: 0 },
-            { name: "أ. رأس المال", debit: 0, credit: 100000 }
-        ],
-        explanation: "قيد إيداع رأس مال: المدين (النقدية) زيادة في الأصول، الدائن (رأس المال) زيادة في حقوق الملكية."
-    },
-    {
-        id: 15,
-        type: "daily",
-        difficulty: "hard",
-        company: "شركة البحيري",
-        title: "عملية مركبة مع خصم",
-        description: "شراء بضاعة بقيمة 80,000 جنيه بالآجل مع خصم نقدي 2% عند السداد المبكر، تم السداد خلال فترة الخصم",
-        hint: "الخصم النقدي يعتبر إيراد خصم مكتسب",
-        accounts: [
-            { name: "أ. البضاعة", debit: 80000, credit: 0 },
-            { name: "أ. دائنون", debit: 0, credit: 80000 },
-            { name: "أ. دائنون", debit: 80000, credit: 0 },
-            { name: "أ. خصم مكتسب", debit: 0, credit: 1600 },
-            { name: "أ. النقدية", debit: 0, credit: 78400 }
-        ],
-        explanation: "قيدين: الأول شراء بضاعة، الثاني سداد مع خصم: الخصم المكتسب إيراد يزيد حقوق الملكية."
-    },
-    {
-        id: 16,
-        type: "daily",
-        difficulty: "medium",
-        company: "شركة A.G.Ali",
-        title: "شراء بضاعة جزئي نقداً",
-        description: "شراء بضاعة بقيمة 70,000 جنيه، دفع 30,000 نقداً والباقي بالآجل",
-        hint: "جزء نقداً وجزء بالآجل، يقسم القيد",
-        accounts: [
-            { name: "أ. البضاعة", debit: 70000, credit: 0 },
-            { name: "أ. النقدية", debit: 0, credit: 30000 },
-            { name: "أ. دائنون", debit: 0, credit: 40000 }
-        ],
-        explanation: "قيد شراء بضاعة جزئي نقداً: المدين (البضاعة) زيادة الأصول، الدائن الأول (النقدية) نقص أصول، الدائن الثاني (دائنون) زيادة خصوم."
-    },
-    {
-        id: 17,
-        type: "daily",
-        difficulty: "easy",
-        company: "شركة البحيري",
-        title: "دفع مصروف نقل",
-        description: "دفع مصروف نقل بضاعة مشتراة بقيمة 5,000 جنيه نقداً",
-        hint: "مصروف النقل يضاف إلى تكلفة البضاعة المشتراة",
-        accounts: [
-            { name: "أ. البضاعة", debit: 5000, credit: 0 },
-            { name: "أ. النقدية", debit: 0, credit: 5000 }
-        ],
-        explanation: "قيد دفع مصروف نقل بضاعة: المصروف يضاف إلى تكلفة البضاعة (أصول) وليس مصروفاً."
-    },
-    {
-        id: 18,
-        type: "daily",
-        difficulty: "medium",
-        company: "شركة A.G.Ali",
-        title: "بيع بضاعة جزئي نقداً",
-        description: "بيع بضاعة بقيمة 90,000 جنيه (تكلفتها 60,000) قبض 50,000 نقداً والباقي آجل",
-        hint: "جزء نقداً وجزء آجل، الربح يحسب على كامل المبلغ",
-        accounts: [
-            { name: "أ. النقدية", debit: 50000, credit: 0 },
-            { name: "أ. مدينون", debit: 40000, credit: 0 },
-            { name: "أ. البضاعة", debit: 0, credit: 60000 },
-            { name: "أ. ربح المبيعات", debit: 0, credit: 30000 }
-        ],
-        explanation: "قيد بيع بضاعة جزئي نقداً: المدينين (النقدية، مدينون) زيادة أصول، الدائن الأول (البضاعة) نقص أصول، الدائن الثاني (الربح) زيادة حقوق ملكية."
-    },
-    {
-        id: 19,
-        type: "daily",
-        difficulty: "hard",
-        company: "شركة البحيري",
-        title: "تسوية دين بخصم",
-        description: "تسوية دين لشركة بقيمة 40,000 جنيه بخصم 5% لقبول سداد أقل",
-        hint: "الخصم المسموح به يعتبر مصروف",
-        accounts: [
-            { name: "أ. دائنون", debit: 40000, credit: 0 },
-            { name: "أ. خصم مسموح به", debit: 2000, credit: 0 },
-            { name: "أ. النقدية", debit: 0, credit: 38000 }
-        ],
-        explanation: "قيد تسوية دين بخصم: المدين الأول (دائنون) نقص خصوم، المدين الثاني (الخصم) مصروف، الدائن (النقدية) نقص أصول."
-    },
-    {
-        id: 20,
-        type: "daily",
-        difficulty: "easy",
-        company: "شركة A.G.Ali",
-        title: "قبض إيراد نقداً",
-        description: "قبض إيراد إيجار عقار بمبلغ 15,000 جنيه نقداً",
-        hint: "إيراد الإيجار يزيد النقدية وحقوق الملكية",
-        accounts: [
-            { name: "أ. النقدية", debit: 15000, credit: 0 },
-            { name: "أ. إيراد الإيجار", debit: 0, credit: 15000 }
-        ],
-        explanation: "قيد قبض إيراد إيجار: المدين (النقدية) زيادة أصول، الدائن (إيراد الإيجار) زيادة حقوق ملكية."
-    },
-
-    // === 15 سؤال تسوية ===
-    {
-        id: 21,
         type: "adjusting",
         difficulty: "easy",
         company: "شركة البحيري",
@@ -310,7 +162,7 @@ const questionsDatabase = [
         explanation: "قيد تسوية: تحويل جزء من الإيجار المدفوع مقدماً (أصل) إلى مصروف إيجار."
     },
     {
-        id: 22,
+        id: 12,
         type: "adjusting",
         difficulty: "medium",
         company: "شركة A.G.Ali",
@@ -324,7 +176,7 @@ const questionsDatabase = [
         explanation: "قيد تسوية: تسجيل إيراد تم تحقيقه ولكن لم يقبض بعد، يزيد الأصول (مستحقات) والإيرادات."
     },
     {
-        id: 23,
+        id: 13,
         type: "adjusting",
         difficulty: "medium",
         company: "شركة البحيري",
@@ -338,7 +190,7 @@ const questionsDatabase = [
         explanation: "قيد تسوية الاهلاك: توزيع تكلفة الأصل على الفترات، المصروف يقلل صافي الدخل، مجمع الاهلاك مقابل للأصل."
     },
     {
-        id: 24,
+        id: 14,
         type: "adjusting",
         difficulty: "hard",
         company: "شركة A.G.Ali",
@@ -352,7 +204,7 @@ const questionsDatabase = [
         explanation: "قيد تسوية: تسجيل مصروف تحقق ولكن لم يدفع، يزيد المصروفات (تقلل الدخل) ويزيد الخصوم (التزام)."
     },
     {
-        id: 25,
+        id: 15,
         type: "adjusting",
         difficulty: "easy",
         company: "شركة البحيري",
@@ -366,7 +218,7 @@ const questionsDatabase = [
         explanation: "قيد تسوية: تحويل جزء من الإيراد المقدم (التزام) إلى إيراد محقق (حقوق ملكية)."
     },
     {
-        id: 26,
+        id: 16,
         type: "adjusting",
         difficulty: "medium",
         company: "شركة A.G.Ali",
@@ -380,7 +232,7 @@ const questionsDatabase = [
         explanation: "قيد تسوية المخصص: تقدير خسائر مستقبلية، المصروف يقلل الدخل، المخصص مقابل للمدينين."
     },
     {
-        id: 27,
+        id: 17,
         type: "adjusting",
         difficulty: "hard",
         company: "شركة البحيري",
@@ -395,7 +247,7 @@ const questionsDatabase = [
         explanation: "قيد تسوية المخزون: تسجيل مخزون آخر المدة كأصل، وتعديل تكلفة البضاعة المباعة."
     },
     {
-        id: 28,
+        id: 18,
         type: "adjusting",
         difficulty: "medium",
         company: "شركة A.G.Ali",
@@ -409,7 +261,7 @@ const questionsDatabase = [
         explanation: "قيد تسوية: تسجيل إيراد فوائد تحقق ولكن لم يقبض، يزيد الأصول والإيرادات."
     },
     {
-        id: 29,
+        id: 19,
         type: "adjusting",
         difficulty: "easy",
         company: "شركة البحيري",
@@ -423,7 +275,7 @@ const questionsDatabase = [
         explanation: "قيد تسوية الاهلاك: توزيع تكلفة السيارات على الفترات المستفيدة منها."
     },
     {
-        id: 30,
+        id: 20,
         type: "adjusting",
         difficulty: "hard",
         company: "شركة A.G.Ali",
@@ -436,80 +288,10 @@ const questionsDatabase = [
         ],
         explanation: "قيد تسوية الضريبة: تسجيل مصروف ضريبة الدخل والالتزام المستحق للدولة."
     },
-    {
-        id: 31,
-        type: "adjusting",
-        difficulty: "medium",
-        company: "شركة البحيري",
-        title: "تسوية مصروف تأمين مقدم",
-        description: "من مصروف التأمين المدفوع مقدماً (36,000 سنوياً) انقض منه 9 أشهر",
-        hint: "جزء من التأمين المدفوع يصبح مصروفاً",
-        accounts: [
-            { name: "أ. مصروف التأمين", debit: 27000, credit: 0 },
-            { name: "أ. تأمين مدفوع مقدماً", debit: 0, credit: 27000 }
-        ],
-        explanation: "قيد تسوية: تحويل جزء من التأمين المدفوع مقدماً إلى مصروف تأمين."
-    },
-    {
-        id: 32,
-        type: "adjusting",
-        difficulty: "easy",
-        company: "شركة A.G.Ali",
-        title: "تسوية إيراد إيجار مستحق",
-        description: "إيجار مستحق القبض عن عقار مؤجر بقيمة 18,000 جنيه لم يسجل بعد",
-        hint: "إيراد تحقق ولكن لم يقبض بعد",
-        accounts: [
-            { name: "أ. إيجار مستحق القبض", debit: 18000, credit: 0 },
-            { name: "أ. إيراد الإيجار", debit: 0, credit: 18000 }
-        ],
-        explanation: "قيد تسوية: تسجيل إيراد إيجار تحقق ولكن لم يقبض."
-    },
-    {
-        id: 33,
-        type: "adjusting",
-        difficulty: "hard",
-        company: "شركة البحيري",
-        title: "تسوية المرتبات والإجازات",
-        description: "مرتبات نهاية الخدمة والإجازات المستحقة للموظفين لم تسجل بعد بقيمة 45,000 جنيه",
-        hint: "مصروف تحقق ولكن لم يدفع، والتزام مستقبلي",
-        accounts: [
-            { name: "أ. مصروف مزايا نهاية الخدمة", debit: 45000, credit: 0 },
-            { name: "أ. مزايا مستحقة للموظفين", debit: 0, credit: 45000 }
-        ],
-        explanation: "قيد تسوية: تسجيل مصروف تحقق ولكن لم يدفع، والالتزام المستقبلي للشركة."
-    },
-    {
-        id: 34,
-        type: "adjusting",
-        difficulty: "medium",
-        company: "شركة A.G.Ali",
-        title: "تسوية عمولات مبيعات مستحقة",
-        description: "عمولات مبيعات مستحقة الدفع للوسطاء بمبلغ 12,500 جنيه لم تسجل بعد",
-        hint: "مصروف تحقق ولكن لم يدفع، والتزام",
-        accounts: [
-            { name: "أ. مصروف عمولات المبيعات", debit: 12500, credit: 0 },
-            { name: "أ. عمولات مستحقة الدفع", debit: 0, credit: 12500 }
-        ],
-        explanation: "قيد تسوية: تسجيل مصروف عمولات تحقق ولكن لم يدفع، والالتزام للوسطاء."
-    },
-    {
-        id: 35,
-        type: "adjusting",
-        difficulty: "easy",
-        company: "شركة البحيري",
-        title: "تسوية إهلاك المباني",
-        description: "احتساب إهلاك مباني الشركة بمبلغ 40,000 جنيه لهذه الفترة",
-        hint: "إهلاك الأصل الثابت",
-        accounts: [
-            { name: "أ. مصروف اهلاك المباني", debit: 40000, credit: 0 },
-            { name: "أ. مجمع اهلاك - المباني", debit: 0, credit: 40000 }
-        ],
-        explanation: "قيد تسوية الاهلاك: توزيع تكلفة المباني على الفترات."
-    },
 
-    // === 15 سؤال إقفال ===
+    // === الإقفال ===
     {
-        id: 36,
+        id: 21,
         type: "closing",
         difficulty: "easy",
         company: "شركة A.G.Ali",
@@ -523,7 +305,7 @@ const questionsDatabase = [
         explanation: "قيد إقفال: تحويل رصيد إيراد المبيعات إلى حساب ملخص الدخل."
     },
     {
-        id: 37,
+        id: 22,
         type: "closing",
         difficulty: "medium",
         company: "شركة البحيري",
@@ -540,7 +322,7 @@ const questionsDatabase = [
         explanation: "قيد إقفال: تحويل أرصدة المصروفات إلى حساب ملخص الدخل."
     },
     {
-        id: 38,
+        id: 23,
         type: "closing",
         difficulty: "medium",
         company: "شركة A.G.Ali",
@@ -556,7 +338,7 @@ const questionsDatabase = [
         explanation: "قيد إقفال: تحويل أرصدة الإيرادات الأخرى إلى حساب ملخص الدخل."
     },
     {
-        id: 39,
+        id: 24,
         type: "closing",
         difficulty: "hard",
         company: "شركة البحيري",
@@ -570,7 +352,7 @@ const questionsDatabase = [
         explanation: "قيد إقفال: تحويل صافي الدخل (ملخص الدخل) إلى أرباح محتجزة."
     },
     {
-        id: 40,
+        id: 25,
         type: "closing",
         difficulty: "hard",
         company: "شركة A.G.Ali",
@@ -579,4 +361,401 @@ const questionsDatabase = [
         hint: "صافي الخسارة يقلل الأرباح المحتجزة",
         accounts: [
             { name: "أ. أرباح محتجزة", debit: 45000, credit: 0 },
-            { name: "أ
+            { name: "أ. ملخص الدخل", debit: 0, credit: 45000 }
+        ],
+        explanation: "قيد إقفال: تحويل صافي الخسارة (ملخص الدخل) من أرباح محتجزة."
+    }
+];
+
+// متغيرات التطبيق
+let currentQuestionIndex = 0;
+let currentFilter = "all";
+let correctAnswers = 0;
+let wrongAnswers = 0;
+let totalAnswered = 0;
+let usedQuestions = new Set();
+
+// عناصر DOM
+const filterBtns = document.querySelectorAll('.filter-btn');
+const questionTypeEl = document.getElementById('question-type');
+const companyEl = document.getElementById('company');
+const questionTitleEl = document.getElementById('question-title');
+const questionTextEl = document.getElementById('question-text');
+const hintTextEl = document.getElementById('hint-text');
+const explanationTextEl = document.getElementById('explanation-text');
+const entryRowsEl = document.getElementById('entry-rows');
+const checkBtn = document.getElementById('check-btn');
+const nextBtn = document.getElementById('next-btn');
+const showAnswerBtn = document.getElementById('show-answer-btn');
+const hintBtn = document.getElementById('hint-btn');
+const resultMessageEl = document.getElementById('result-message');
+const correctAnswerEl = document.getElementById('correct-answer');
+const explanationBoxEl = document.getElementById('explanation-box');
+const totalDebitEl = document.getElementById('total-debit');
+const totalCreditEl = document.getElementById('total-credit');
+const balanceStatusEl = document.getElementById('balance-status');
+const displayDebitEl = document.getElementById('display-debit');
+const displayCreditEl = document.getElementById('display-credit');
+const correctCountEl = document.getElementById('correct-count');
+const wrongCountEl = document.getElementById('wrong-count');
+const totalAnsweredEl = document.getElementById('total-answered');
+const successRateEl = document.getElementById('success-rate');
+const progressFillEl = document.getElementById('progress-fill');
+const progressTextEl = document.getElementById('progress-text');
+
+// تهيئة التطبيق
+function init() {
+    setupEventListeners();
+    loadRandomQuestion();
+    updateStats();
+    updateBalance();
+}
+
+// إعداد مستمعي الأحداث
+function setupEventListeners() {
+    // أزرار التصفية
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentFilter = btn.dataset.type;
+            usedQuestions.clear();
+            loadRandomQuestion();
+        });
+    });
+
+    // أزرار التحكم
+    checkBtn.addEventListener('click', checkAnswer);
+    nextBtn.addEventListener('click', loadRandomQuestion);
+    showAnswerBtn.addEventListener('click', showCorrectAnswer);
+    hintBtn.addEventListener('click', showHint);
+
+    // تحديث الرصيد عند الكتابة
+    document.addEventListener('input', updateBalance);
+}
+
+// تحميل سؤال عشوائي
+function loadRandomQuestion() {
+    // إخفاء النتائج السابقة
+    hidePreviousResults();
+    
+    // تصفية الأسئلة حسب النوع
+    let filteredQuestions = questions;
+    if (currentFilter !== "all") {
+        filteredQuestions = questions.filter(q => q.type === currentFilter);
+    }
+    
+    // إذا تم استخدام جميع الأسئلة، أفرغ المجموعة
+    if (usedQuestions.size >= filteredQuestions.length) {
+        usedQuestions.clear();
+    }
+    
+    // اختيار سؤال عشوائي غير مستخدم
+    let availableQuestions = filteredQuestions.filter((q, index) => !usedQuestions.has(q.id));
+    if (availableQuestions.length === 0) {
+        availableQuestions = filteredQuestions;
+        usedQuestions.clear();
+    }
+    
+    const randomIndex = Math.floor(Math.random() * availableQuestions.length);
+    const question = availableQuestions[randomIndex];
+    currentQuestionIndex = questions.findIndex(q => q.id === question.id);
+    
+    // إضافة السؤال للمستخدمين
+    usedQuestions.add(question.id);
+    
+    // تحديث واجهة السؤال
+    updateQuestionUI(question);
+    
+    // إنشاء حقول الإدخال
+    createEntryInputs(question.accounts);
+    
+    // تحديث الإحصائيات
+    updateStats();
+}
+
+// تحديث واجهة السؤال
+function updateQuestionUI(question) {
+    // نوع السؤال
+    let typeText = "";
+    switch(question.type) {
+        case "daily": typeText = "يومية"; break;
+        case "adjusting": typeText = "تسوية"; break;
+        case "closing": typeText = "إقفال"; break;
+    }
+    questionTypeEl.textContent = typeText;
+    
+    // الشركة
+    companyEl.textContent = question.company;
+    
+    // العنوان والوصف
+    questionTitleEl.textContent = question.title;
+    questionTextEl.textContent = question.description;
+    
+    // التلميح
+    hintTextEl.textContent = question.hint;
+    
+    // الشرح
+    explanationTextEl.textContent = question.explanation;
+    
+    // مستوى الصعوبة
+    updateDifficultyUI(question.difficulty);
+}
+
+// تحديث واجهة مستوى الصعوبة
+function updateDifficultyUI(difficulty) {
+    const difficultyEl = document.getElementById('difficulty');
+    const difficultyDot = difficultyEl.querySelector('.difficulty-dot');
+    const difficultyText = difficultyEl.querySelector('span:last-child');
+    
+    // إزالة جميع الفئات
+    difficultyDot.className = 'difficulty-dot';
+    
+    // إضافة الفئة المناسبة والنص
+    switch(difficulty) {
+        case "easy":
+            difficultyDot.classList.add('easy');
+            difficultyText.textContent = "سهل";
+            break;
+        case "medium":
+            difficultyDot.classList.add('medium');
+            difficultyText.textContent = "متوسط";
+            break;
+        case "hard":
+            difficultyDot.classList.add('hard');
+            difficultyText.textContent = "صعب";
+            break;
+    }
+}
+
+// إنشاء حقول إدخال القيد
+function createEntryInputs(accounts) {
+    entryRowsEl.innerHTML = '';
+    
+    accounts.forEach((account, index) => {
+        const row = document.createElement('div');
+        row.className = 'entry-row';
+        
+        row.innerHTML = `
+            <div class="account-cell">${account.name}</div>
+            <div class="input-cell">
+                <input type="number" 
+                       class="entry-input debit-input" 
+                       id="debit-${index}" 
+                       placeholder="0" 
+                       min="0" 
+                       step="1000"
+                       data-index="${index}">
+                <span class="input-label">مدين</span>
+            </div>
+            <div class="input-cell">
+                <input type="number" 
+                       class="entry-input credit-input" 
+                       id="credit-${index}" 
+                       placeholder="0" 
+                       min="0" 
+                       step="1000"
+                       data-index="${index}">
+                <span class="input-label">دائن</span>
+            </div>
+        `;
+        
+        entryRowsEl.appendChild(row);
+    });
+}
+
+// التحقق من الإجابة
+function checkAnswer() {
+    const question = questions[currentQuestionIndex];
+    let isCorrect = true;
+    let totalDebit = 0;
+    let totalCredit = 0;
+    
+    // التحقق من كل حساب
+    question.accounts.forEach((account, index) => {
+        const debitInput = document.getElementById(`debit-${index}`);
+        const creditInput = document.getElementById(`credit-${index}`);
+        
+        const userDebit = parseInt(debitInput.value) || 0;
+        const userCredit = parseInt(creditInput.value) || 0;
+        
+        // جمع المجاميع للتحقق من التوازن
+        totalDebit += userDebit;
+        totalCredit += userCredit;
+        
+        // التحقق من المبالغ
+        if (userDebit !== account.debit || userCredit !== account.credit) {
+            isCorrect = false;
+            debitInput.classList.add('incorrect');
+            debitInput.classList.remove('correct');
+            creditInput.classList.add('incorrect');
+            creditInput.classList.remove('correct');
+        } else {
+            debitInput.classList.add('correct');
+            debitInput.classList.remove('incorrect');
+            creditInput.classList.add('correct');
+            creditInput.classList.remove('incorrect');
+        }
+    });
+    
+    // التحقق من توازن القيد
+    if (totalDebit !== totalCredit) {
+        isCorrect = false;
+        showResult(false, "القيد غير متوازن! مجموع المدين ≠ مجموع الدائن");
+    }
+    
+    // عرض النتيجة
+    if (isCorrect) {
+        showResult(true, "ممتاز! القيد صحيح تماماً");
+        correctAnswers++;
+    } else {
+        showResult(false, "القيد غير صحيح، حاول مرة أخرى");
+        wrongAnswers++;
+    }
+    
+    totalAnswered++;
+    updateStats();
+    
+    // عرض الشرح
+    explanationBoxEl.classList.add('show');
+}
+
+// عرض نتيجة التحقق
+function showResult(isCorrect, message) {
+    resultMessageEl.textContent = message;
+    resultMessageEl.className = 'result-message';
+    resultMessageEl.classList.add(isCorrect ? 'correct' : 'wrong');
+    
+    // إخفاء الإجابة الصحيحة إذا كانت موجودة
+    correctAnswerEl.classList.remove('show');
+}
+
+// عرض الإجابة الصحيحة
+function showCorrectAnswer() {
+    const question = questions[currentQuestionIndex];
+    let answerHTML = '<div class="answer-header">القيد الصحيح:</div>';
+    
+    question.accounts.forEach(account => {
+        answerHTML += `
+            <div class="answer-row">
+                <span class="account-name">${account.name}</span>
+                <span class="debit-amount">${account.debit > 0 ? account.debit.toLocaleString() + ' جنيه' : ''}</span>
+                <span class="credit-amount">${account.credit > 0 ? account.credit.toLocaleString() + ' جنيه' : ''}</span>
+            </div>
+        `;
+    });
+    
+    // حساب المجموع
+    const totalDebit = question.accounts.reduce((sum, acc) => sum + acc.debit, 0);
+    const totalCredit = question.accounts.reduce((sum, acc) => sum + acc.credit, 0);
+    
+    answerHTML += `
+        <div class="answer-total">
+            <span class="total-label">المجموع</span>
+            <span class="total-debit">${totalDebit.toLocaleString()} جنيه</span>
+            <span class="total-credit">${totalCredit.toLocaleString()} جنيه</span>
+        </div>
+    `;
+    
+    correctAnswerEl.innerHTML = answerHTML;
+    correctAnswerEl.classList.add('show');
+    
+    // إضافة الأنماط للعرض
+    const style = document.createElement('style');
+    style.textContent = `
+        .answer-header {
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+        .answer-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 1rem;
+            padding: 0.75rem;
+            background: white;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+        .answer-total {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--primary);
+            color: white;
+            border-radius: 8px;
+            font-weight: bold;
+            margin-top: 1rem;
+            text-align: center;
+        }
+        .debit-amount, .credit-amount {
+            font-weight: bold;
+        }
+        .total-debit, .total-credit {
+            background: rgba(255,255,255,0.1);
+            padding: 0.5rem;
+            border-radius: 4px;
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+// عرض التلميح
+function showHint() {
+    const hintBox = document.querySelector('.hint-box');
+    hintBox.style.animation = 'pulse 0.5s';
+    setTimeout(() => {
+        hintBox.style.animation = '';
+    }, 500);
+}
+
+// تحديث الرصيد
+function updateBalance() {
+    let totalDebit = 0;
+    let totalCredit = 0;
+    
+    // حساب مجموع المدين والدائن من المدخلات
+    const debitInputs = document.querySelectorAll('.debit-input');
+    const creditInputs = document.querySelectorAll('.credit-input');
+    
+    debitInputs.forEach(input => {
+        totalDebit += parseInt(input.value) || 0;
+    });
+    
+    creditInputs.forEach(input => {
+        totalCredit += parseInt(input.value) || 0;
+    });
+    
+    // تحديث القيم المعروضة
+    totalDebitEl.textContent = totalDebit.toLocaleString();
+    totalCreditEl.textContent = totalCredit.toLocaleString();
+    displayDebitEl.textContent = totalDebit.toLocaleString();
+    displayCreditEl.textContent = totalCredit.toLocaleString();
+    
+    // تحديث حالة التوازن
+    if (totalDebit === totalCredit && totalDebit > 0) {
+        balanceStatusEl.innerHTML = '<i class="fas fa-check-circle"></i><span>متوازن</span>';
+        balanceStatusEl.className = 'balance-status balanced';
+    } else {
+        balanceStatusEl.innerHTML = '<i class="fas fa-times-circle"></i><span>غير متوازن</span>';
+        balanceStatusEl.className = 'balance-status unbalanced';
+    }
+}
+
+// تحديث الإحصائيات
+function updateStats() {
+    // تحديث الأعداد
+    correctCountEl.textContent = correctAnswers;
+    wrongCountEl.textContent = wrongAnswers;
+    totalAnsweredEl.textContent = totalAnswered;
+    
+    // حساب نسبة النجاح
+    const successRate = totalAnswered > 0 ? Math.round((correctAnswers / totalAnswered) * 100) : 0;
+    successRateEl.textContent = successRate + '%';
+    
+    // تحديث شريط التقدم
