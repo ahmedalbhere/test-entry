@@ -3,193 +3,214 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نظام تدريب المحاسبة - 50 سؤال</title>
+    <title>تدريب القيود المحاسبية</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <div class="header-top">
-                <h1><i class="fas fa-calculator"></i> نظام تدريب المحاسبة المتكامل</h1>
-                <p class="subtitle">50 تمرين عملي على القيود اليومية، التسوية والإقفال</p>
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-calculator"></i>
+                    <h1>تدريب القيود المحاسبية</h1>
+                </div>
+                <p class="subtitle">تدريب عملي على القيود اليومية، التسوية والإقفال</p>
             </div>
             
-            <div class="controls">
-                <button class="control-btn active" data-type="all">كل الأسئلة</button>
-                <button class="control-btn" data-type="daily">اليومية (20)</button>
-                <button class="control-btn" data-type="adjusting">التسوية (15)</button>
-                <button class="control-btn" data-type="closing">الإقفال (15)</button>
-            </div>
-            
-            <div class="difficulty-controls">
-                <label for="difficulty">مستوى الصعوبة:</label>
-                <select id="difficulty">
-                    <option value="all">الجميع</option>
-                    <option value="easy">سهل</option>
-                    <option value="medium">متوسط</option>
-                    <option value="hard">صعب</option>
-                </select>
+            <div class="filters">
+                <div class="filter-group">
+                    <button class="filter-btn active" data-type="all">
+                        <i class="fas fa-layer-group"></i>
+                        <span>الكل</span>
+                    </button>
+                    <button class="filter-btn" data-type="daily">
+                        <i class="fas fa-book"></i>
+                        <span>اليومية</span>
+                    </button>
+                    <button class="filter-btn" data-type="adjusting">
+                        <i class="fas fa-balance-scale"></i>
+                        <span>التسوية</span>
+                    </button>
+                    <button class="filter-btn" data-type="closing">
+                        <i class="fas fa-lock"></i>
+                        <span>الإقفال</span>
+                    </button>
+                </div>
                 
-                <button id="random-btn" class="random-btn">
-                    <i class="fas fa-random"></i> سؤال عشوائي
-                </button>
+                <div class="mobile-controls">
+                    <button class="mobile-btn" id="hint-btn">
+                        <i class="fas fa-lightbulb"></i>
+                        <span>تلميح</span>
+                    </button>
+                    <button class="mobile-btn" id="show-answer-btn">
+                        <i class="fas fa-eye"></i>
+                        <span>الإجابة</span>
+                    </button>
+                </div>
             </div>
         </header>
-        
+
         <main>
-            <div class="question-section">
-                <div class="question-header">
-                    <div class="question-meta">
-                        <span class="question-number" id="question-num">السؤال 1</span>
-                        <span class="question-type" id="question-type">يومية عادية</span>
-                        <span class="difficulty-tag" id="difficulty-tag">سهل</span>
+            <div class="content-wrapper">
+                <section class="question-section">
+                    <div class="question-header">
+                        <div class="question-info">
+                            <div class="company-badge" id="company">شركة البحيري</div>
+                            <div class="question-type" id="question-type">يومية</div>
+                        </div>
+                        <div class="difficulty" id="difficulty">
+                            <span class="difficulty-dot easy"></span>
+                            <span>سهل</span>
+                        </div>
                     </div>
-                    <div class="company-name" id="company-name">شركة البحيري</div>
-                </div>
-                
-                <div class="question-card">
-                    <h2 id="question-title">عملية شراء أصول</h2>
-                    <p class="question-desc" id="question-desc">شراء معدات مكتبية نقداً بقيمة 50,000 جنيه</p>
-                    
-                    <div class="question-hint" id="question-hint">
-                        <i class="fas fa-lightbulb"></i> تذكر: شراء الأصل يزيد الأصول، الدفع النقدي يقلل الأصول
+
+                    <div class="question-card">
+                        <h2 id="question-title">شراء أصول نقداً</h2>
+                        <p class="question-text" id="question-text">
+                            شراء معدات مكتبية (أصول ثابتة) نقداً بمبلغ 85,000 جنيه
+                        </p>
+                        
+                        <div class="hint-box" id="hint-box">
+                            <i class="fas fa-info-circle"></i>
+                            <span id="hint-text">تذكر: شراء الأصل يزيد الأصول، الدفع النقدي يقلل الأصول</span>
+                        </div>
                     </div>
-                </div>
-                
-                <div class="result-area">
-                    <div class="result" id="result">
-                        <!-- تظهر نتيجة التحقق هنا -->
+
+                    <div class="result-container">
+                        <div class="result-message" id="result-message"></div>
+                        <div class="correct-answer" id="correct-answer"></div>
                     </div>
-                    
-                    <div class="correct-answer" id="correct-answer">
-                        <!-- تظهر الإجابة الصحيحة هنا -->
+
+                    <div class="explanation-box" id="explanation-box">
+                        <div class="explanation-header">
+                            <i class="fas fa-graduation-cap"></i>
+                            <h3>شرح القيد</h3>
+                        </div>
+                        <p id="explanation-text">سيظهر شرح القيد هنا بعد التحقق من الإجابة</p>
                     </div>
-                </div>
-                
-                <div class="explanation" id="explanation">
-                    <!-- شرح القيد يظهر هنا -->
-                </div>
-            </div>
-            
-            <div class="entry-section">
-                <div class="section-title">
-                    <h2><i class="fas fa-edit"></i> سجل القيد المحاسبي</h2>
-                    <div class="balance-check">
-                        <span>المدين: <span id="total-debit">0</span></span>
-                        <span>الدائن: <span id="total-credit">0</span></span>
-                        <span class="balance-status" id="balance-status">غير متوازن</span>
-                    </div>
-                </div>
-                
-                <div class="entry-table">
+                </section>
+
+                <section class="entry-section">
                     <div class="entry-header">
-                        <div class="header-account">الحساب</div>
-                        <div class="header-amount">
-                            <div class="header-debit">مدين</div>
-                            <div class="header-credit">دائن</div>
-                        </div>
-                    </div>
-                    
-                    <div class="entry-rows" id="entry-rows">
-                        <!-- الصفوف تضاف بالجافاسكريبت -->
-                    </div>
-                    
-                    <div class="entry-totals">
-                        <div class="total-label">المجموع</div>
-                        <div class="total-amounts">
-                            <div class="total-debit" id="display-debit">0</div>
-                            <div class="total-credit" id="display-credit">0</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="action-buttons">
-                    <button id="check-btn" class="btn check-btn">
-                        <i class="fas fa-check-circle"></i> تحقق من الإجابة
-                    </button>
-                    <button id="hint-btn" class="btn hint-btn">
-                        <i class="fas fa-lightbulb"></i> تلميح
-                    </button>
-                    <button id="show-answer-btn" class="btn show-btn">
-                        <i class="fas fa-eye"></i> عرض الإجابة
-                    </button>
-                    <button id="next-btn" class="btn next-btn">
-                        <i class="fas fa-forward"></i> سؤال تالي
-                    </button>
-                </div>
-                
-                <div class="stats-section">
-                    <h3><i class="fas fa-chart-line"></i> إحصائيات الأداء</h3>
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <div class="stat-icon correct-icon">
-                                <i class="fas fa-check"></i>
+                        <h2><i class="fas fa-edit"></i> سجل القيد المحاسبي</h2>
+                        <div class="balance-indicator">
+                            <div class="balance-item">
+                                <span>المدين:</span>
+                                <span class="amount" id="total-debit">0</span>
                             </div>
-                            <div class="stat-info">
-                                <div class="stat-value" id="correct-count">0</div>
-                                <div class="stat-label">إجابات صحيحة</div>
+                            <div class="balance-item">
+                                <span>الدائن:</span>
+                                <span class="amount" id="total-credit">0</span>
+                            </div>
+                            <div class="balance-status" id="balance-status">
+                                <i class="fas fa-times-circle"></i>
+                                <span>غير متوازن</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="entry-table-container">
+                        <div class="table-header">
+                            <div class="header-cell account">الحساب</div>
+                            <div class="header-cell debit">مدين</div>
+                            <div class="header-cell credit">دائن</div>
+                        </div>
+                        
+                        <div class="table-body" id="entry-rows">
+                            <!-- سيتم إضافة الصفوف ديناميكياً -->
+                        </div>
+                        
+                        <div class="table-footer">
+                            <div class="footer-cell total-label">المجموع</div>
+                            <div class="footer-cell total-debit" id="display-debit">0</div>
+                            <div class="footer-cell total-credit" id="display-credit">0</div>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="action-btn check-btn" id="check-btn">
+                            <i class="fas fa-check"></i>
+                            <span>تحقق من الإجابة</span>
+                        </button>
+                        <button class="action-btn next-btn" id="next-btn">
+                            <i class="fas fa-redo"></i>
+                            <span>سؤال جديد</span>
+                        </button>
+                    </div>
+
+                    <div class="stats-section">
+                        <div class="stats-grid">
+                            <div class="stat-card correct">
+                                <div class="stat-icon">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-value" id="correct-count">0</div>
+                                    <div class="stat-label">صحيحة</div>
+                                </div>
+                            </div>
+                            
+                            <div class="stat-card wrong">
+                                <div class="stat-icon">
+                                    <i class="fas fa-times-circle"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-value" id="wrong-count">0</div>
+                                    <div class="stat-label">خاطئة</div>
+                                </div>
+                            </div>
+                            
+                            <div class="stat-card total">
+                                <div class="stat-icon">
+                                    <i class="fas fa-chart-bar"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-value" id="total-answered">0</div>
+                                    <div class="stat-label">تمت</div>
+                                </div>
+                            </div>
+                            
+                            <div class="stat-card percentage">
+                                <div class="stat-icon">
+                                    <i class="fas fa-percent"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-value" id="success-rate">0%</div>
+                                    <div class="stat-label">نسبة النجاح</div>
+                                </div>
                             </div>
                         </div>
                         
-                        <div class="stat-card">
-                            <div class="stat-icon wrong-icon">
-                                <i class="fas fa-times"></i>
+                        <div class="progress-container">
+                            <div class="progress-header">
+                                <span>تقدمك في التدريب</span>
+                                <span id="progress-text">0%</span>
                             </div>
-                            <div class="stat-info">
-                                <div class="stat-value" id="wrong-count">0</div>
-                                <div class="stat-label">إجابات خاطئة</div>
-                            </div>
-                        </div>
-                        
-                        <div class="stat-card">
-                            <div class="stat-icon total-icon">
-                                <i class="fas fa-list-ol"></i>
-                            </div>
-                            <div class="stat-info">
-                                <div class="stat-value" id="total-answered">0</div>
-                                <div class="stat-label">تمت الإجابة</div>
-                            </div>
-                        </div>
-                        
-                        <div class="stat-card">
-                            <div class="stat-icon percent-icon">
-                                <i class="fas fa-percentage"></i>
-                            </div>
-                            <div class="stat-info">
-                                <div class="stat-value" id="success-rate">0%</div>
-                                <div class="stat-label">نسبة النجاح</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progress-fill"></div>
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="progress-section">
-                        <div class="progress-header">
-                            <span>التقدم في التدريب</span>
-                            <span id="progress-text">0/50</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" id="progress-fill"></div>
-                        </div>
-                    </div>
-                </div>
+                </section>
             </div>
         </main>
-        
+
         <footer>
             <div class="footer-content">
-                <div class="footer-info">
-                    <h4><i class="fas fa-graduation-cap"></i> نظام تدريب المحاسبة</h4>
-                    <p>تم تصميم النظام لتدريب طلاب المحاسبة على القيود المحاسبية بأنواعها</p>
+                <div class="footer-text">
+                    <p>© 2023 نظام تدريب المحاسبة - تمارين عملية على القيود المحاسبية</p>
+                    <p class="footer-note">تم تصميم النظام ليكون متوافقاً مع جميع أحجام الشاشات</p>
                 </div>
-                <div class="footer-stats">
-                    <p>إجمالي الأسئلة: <strong>50</strong> | اليومية: <strong>20</strong> | التسوية: <strong>15</strong> | الإقفال: <strong>15</strong></p>
-                    <p class="copyright">© 2023 نظام التدريب المحاسبي المتكامل</p>
+                <div class="footer-icons">
+                    <i class="fas fa-mobile-alt"></i>
+                    <i class="fas fa-tablet-alt"></i>
+                    <i class="fas fa-laptop"></i>
                 </div>
             </div>
         </footer>
     </div>
-    
+
     <script src="script.js"></script>
 </body>
 </html>
