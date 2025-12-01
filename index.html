@@ -18,16 +18,27 @@
         .panel .title{color:#1f3a58;font-weight:700;margin-bottom:10px}
         .operation-card{background:#fff;border-radius:8px;padding:12px;border:1px solid #e6eef7}
         .operation-desc{font-size:15px;padding:10px;border-radius:8px;background:#eef7ff;border-right:4px solid #3aa0ff}
-        .journal{background:#fff;border-radius:8px;padding:10px;border:1px solid #e6eef7}
+        .operation-meta{margin-top:8px;font-size:14px;color:#1f3a58;font-weight:700}
+        .journal{background:#fff;border-radius:8px;padding:10px;border:1px solid #e6eef7;margin-top:12px}
         .entry-row{display:flex;gap:8px;align-items:center;margin-bottom:8px}
         .label{width:44%;font-weight:600}
         .amounts{display:flex;gap:8px;flex:1}
-        .amounts input{flex:1;padding:8px;border:1px solid #d7e6f5;border-radius:6px;font-size:14px;text-align:center}
+        .amounts input{
+    flex:1;
+    padding:8px;
+    border:1px solid #d7e6f5;
+    border-radius:8px;
+    font-size:14px;
+    text-align:center;
+    max-width:100%;
+}
+        .amounts input:focus{outline:none;box-shadow:0 2px 8px rgba(58,160,255,0.18);border-color:#3aa0ff}
         .controls{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:10px}
         button{padding:10px 14px;border-radius:8px;border:none;font-weight:700;cursor:pointer}
         .btn-check{background:#27ae60;color:#fff}
         .btn-next{background:#1976d2;color:#fff}
         .btn-answer{background:#8e44ad;color:#fff}
+        .btn-clear{background:#e67e22;color:#fff}
         .result{margin-top:10px;text-align:center;padding:12px;border-radius:8px;display:none;font-weight:700}
         .correct{background:#e6f6ea;color:#145a2d;border:1px solid #c6ebd1}
         .incorrect{background:#fdecea;color:#7b241c;border:1px solid #f5c6c6}
@@ -45,7 +56,14 @@
             .label{width:40%}
         }
         @media (max-width:420px){
-            header h1{font-size:18px}
+    header h1{font-size:18px}
+    .label{width:100%;font-size:13px}
+    .entry-row{flex-direction:column;align-items:flex-start;width:100%}
+    .amounts{width:100%;flex-direction:row;justify-content:space-between}
+    .amounts input{width:48% !important;max-width:48% !important;font-size:13px;padding:8px}
+    .controls{gap:6px}
+    button{padding:10px}
+}
             .label{width:100%;font-size:13px}
             .entry-row{flex-direction:column;align-items:flex-start}
             .amounts{width:100%;flex-direction:row}
@@ -66,23 +84,31 @@
                 <div class="title"><i class="fas fa-file-invoice"></i> العملية المالية</div>
                 <div class="operation-card">
                     <div id="operationDesc" class="operation-desc">جاري التحميل...</div>
+                    <div id="operationType" class="operation-meta">نوع العملية: -</div>
                 </div>
 
-                <div style="margin-top:12px" class="operation-card">
+                <!-- إدخال القيد مباشرة تحت السؤال (احترافي ومناسب للموبايل) -->
+                <div class="journal" id="journalArea" aria-live="polite"></div>
+
+                <div class="operation-card" style="margin-top:12px">
                     <div class="title">تعليمات</div>
                     <ol style="padding-inline-start:18px;margin-top:8px;line-height:1.6">
                         <li>اقرأ العملية المالية.</li>
-                        <li>ادخل القيد في الحقول المقابلة لكل حساب.</li>
-                        <li>تأكد أن مجموع المدين = مجموع الدائن ثم اضغط تحقق.</li>
-                        <li>للإطلاع على القيد الصحيح اضغط "عرض الإجابة".</li>
-                        <li>اضغط التالي للانتقال للعملية التالية.</li>
+                        <li>أدخل القيد مباشرة أسفل العملية (يوجد خانتين لكل سطر: مدين - دائن).</li>
+                        <li>تأكد أن مجموع المدين = مجموع الدائن قبل الضغط على "تحقق".</li>
+                        <li>يمكنك الضغط "عرض الإجابة" لرؤية الحل أو "التالي" للانتقال.</li>
                     </ol>
                 </div>
 
-                <div class="operation-card" style="margin-top:12px">
-                    <div class="title">نوع العملية</div>
-                    <p id="operationType" style="font-weight:700;margin-top:6px">-</p>
+                <div class="controls" style="margin-top:12px">
+                    <button id="checkBtn" class="btn-check"><i class="fas fa-check-circle"></i> تحقق</button>
+                    <button id="showAnswerBtn" class="btn-answer"><i class="fas fa-eye"></i> عرض الإجابة</button>
+                    <button id="nextBtn" class="btn-next"><i class="fas fa-arrow-right"></i> التالي</button>
+                    <button id="clearBtn" class="btn-clear"><i class="fas fa-eraser"></i> مسح الحقول</button>
                 </div>
+
+                <div id="result" class="result" role="status" aria-live="assertive"></div>
+                <div id="correctAnswer" class="correct-answer" aria-live="polite"></div>
 
                 <div class="operation-card score" style="margin-top:12px">
                     <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center">
@@ -92,7 +118,7 @@
                     </div>
                 </div>
 
-                <div class="operation-card progress-wrap">
+                <div class="operation-card progress-wrap" style="margin-top:12px">
                     <div class="title">التقدم</div>
                     <div class="progress-bar" style="margin-top:8px">
                         <div id="progress" class="progress"></div>
@@ -100,22 +126,6 @@
                     <p style="text-align:center;margin-top:8px">المهمة <span id="currentIndex">0</span> من <span id="totalOps">30</span></p>
                 </div>
 
-            </div>
-
-            <div class="panel" id="rightPanel">
-                <div class="title"><i class="fas fa-edit"></i> تسجيل القيد</div>
-                <div class="journal" id="journalArea">
-                    <!-- rows will be injected here -->
-                </div>
-
-                <div class="controls">
-                    <button id="checkBtn" class="btn-check"><i class="fas fa-check-circle"></i> تحقق</button>
-                    <button id="showAnswerBtn" class="btn-answer"><i class="fas fa-eye"></i> عرض الإجابة</button>
-                    <button id="nextBtn" class="btn-next"><i class="fas fa-arrow-right"></i> التالي</button>
-                </div>
-
-                <div id="result" class="result"></div>
-                <div id="correctAnswer" class="correct-answer"></div>
             </div>
         </div>
 
@@ -125,9 +135,10 @@
     </div>
 
 <script>
+document.addEventListener('DOMContentLoaded', function(){
+
 // ----- بيانات 30 عملية: 10 عادية + 10 تسوية + 10 إقفال -----
 const operations = [
-    // 10 عمليات عادية
     {id:1,type:'عادية',description:'شراء أجهزة حاسوب نقداً بمبلغ 50,000 جنيه',entries:[{account:'أ. الأجهزة الحاسوب (أصول)',debit:50000,credit:0},{account:'أ. النقدية',debit:0,credit:50000}]},
     {id:2,type:'عادية',description:'شراء بضاعة بالآجل من شركة النور بقيمة 30,000 جنيه',entries:[{account:'أ. البضاعة (مخزون)',debit:30000,credit:0},{account:'أ. الدائنون (شركة النور)',debit:0,credit:30000}]},
     {id:3,type:'عادية',description:'بيع بضاعة نقداً بمبلغ 25,000 جنيه - تكلفتها 15,000 جنيه',entries:[{account:'أ. النقدية',debit:25000,credit:0},{account:'أ. البضاعة (مخزون)',debit:0,credit:15000},{account:'أ. ربح المبيع',debit:0,credit:10000}]},
@@ -138,7 +149,6 @@ const operations = [
     {id:8,type:'عادية',description:'تحصيل مدين نقداً 5,000 جنيه',entries:[{account:'أ. النقدية',debit:5000,credit:0},{account:'أ. المدينون',debit:0,credit:5000}]},
     {id:9,type:'عادية',description:'شراء مواد مكتبية نقداً 1,500 جنيه',entries:[{account:'أ. مصروف المواد المكتبية',debit:1500,credit:0},{account:'أ. النقدية',debit:0,credit:1500}]},
     {id:10,type:'عادية',description:'بيع أصل ثابت نقداً 40,000 جنيه - القيمة الدفترية 35,000 جنيه',entries:[{account:'أ. النقدية',debit:40000,credit:0},{account:'أ. الأصل الثابت (سيارة)',debit:0,credit:35000},{account:'أ. ربح بيع الأصل',debit:0,credit:5000}]},
-    // 10 عمليات تسوية
     {id:11,type:'تسوية',description:'تسوية مصروفات مستحقة بقيمة 2,500 جنيه',entries:[{account:'أ. مصروفات مستحقة',debit:2500,credit:0},{account:'أ. المستحقات',debit:0,credit:2500}]},
     {id:12,type:'تسوية',description:'قيد إهلاك للأصول 1,200 جنيه',entries:[{account:'أ. مصروف الإهلاك',debit:1200,credit:0},{account:'أ. مجمع إهلاك',debit:0,credit:1200}]},
     {id:13,type:'تسوية',description:'مصاريف مدفوعة مقدماً تم تخصيصها 600 جنيه',entries:[{account:'أ. مصروفات مدفوعة مقدماً',debit:0,credit:600},{account:'أ. مصروف الفترة',debit:600,credit:0}]},
@@ -149,7 +159,6 @@ const operations = [
     {id:18,type:'تسوية',description:'تسوية مصروفات ضريبة دخل مستحقة 3,000 جنيه',entries:[{account:'أ. مصروف ضريبة الدخل',debit:3000,credit:0},{account:'أ. ضريبة مستحقة',debit:0,credit:3000}]},
     {id:19,type:'تسوية',description:'تسوية مصروفات تأمين مستحقة 1,100 جنيه',entries:[{account:'أ. مصروف التأمين',debit:1100,credit:0},{account:'أ. التأمين المستحق',debit:0,credit:1100}]},
     {id:20,type:'تسوية',description:'تسوية مخصص ديون مشكوك في تحصيلها 900 جنيه',entries:[{account:'أ. مخصص الديون المشكوك فيها',debit:900,credit:0},{account:'أ. مخصصات خسائر الائتمان',debit:0,credit:900}]},
-    // 10 عمليات إقفال (نماذج إقفال المصروفات والإيرادات)
     {id:21,type:'إقفال',description:'قيد إقفال مصروفات الإيجار - نقل إلى ملخص الأرباح',entries:[{account:'أ. ملخص الأرباح والخسائر',debit:3000,credit:0},{account:'أ. مصروف الإيجار',debit:0,credit:3000}]},
     {id:22,type:'إقفال',description:'قيد إقفال مصروفات الرواتب - نقل إلى ملخص الأرباح',entries:[{account:'أ. ملخص الأرباح والخسائر',debit:5000,credit:0},{account:'أ. مصروف الرواتب',debit:0,credit:5000}]},
     {id:23,type:'إقفال',description:'قيد إقفال إيرادات المبيعات - نقل إلى ملخص الأرباح',entries:[{account:'أ. إيراد المبيعات',debit:40000,credit:0},{account:'أ. ملخص الأرباح والخسائر',debit:0,credit:40000}]},
@@ -184,6 +193,7 @@ const correctAnswerEl = document.getElementById('correctAnswer');
 const checkBtn = document.getElementById('checkBtn');
 const showAnswerBtn = document.getElementById('showAnswerBtn');
 const nextBtn = document.getElementById('nextBtn');
+const clearBtn = document.getElementById('clearBtn');
 
 totalOpsEl.textContent = operations.length;
 
@@ -191,7 +201,7 @@ totalOpsEl.textContent = operations.length;
 function loadOperation(i){
     const op = operations[i];
     operationDescEl.textContent = op.description;
-    operationTypeEl.textContent = op.type;
+    operationTypeEl.textContent = 'النوع: ' + op.type;
     currentIndexEl.textContent = i+1;
     updateProgress();
 
@@ -210,7 +220,6 @@ function loadOperation(i){
         journalArea.appendChild(row);
     });
 
-    // إذا كان القيد يحتوي على أكثر من 2 سطر (مثلاً عند وجود ربح/خسارة)، نظهر عدد السطور المتوفر
     // إعادة تعيين الرسائل
     resultEl.style.display = 'none';
     correctAnswerEl.style.display = 'none';
@@ -238,6 +247,14 @@ function getUserEntries(){
     return arr;
 }
 
+// مسح الحقول
+function clearFields(){
+    const inputs = journalArea.querySelectorAll('input');
+    inputs.forEach(i => i.value = '');
+    resultEl.style.display = 'none';
+    correctAnswerEl.style.display = 'none';
+}
+
 // تحقق من توازن القيد ومقارنة مع القيد الصحيح
 function checkEntry(){
     const op = operations[currentIndex];
@@ -247,10 +264,6 @@ function checkEntry(){
     const totalDebitUser = user.reduce((s,e)=>s+ (e.debit||0),0);
     const totalCreditUser = user.reduce((s,e)=>s+ (e.credit||0),0);
 
-    // مجموع القيد الصحيح
-    const totalDebitCorrect = op.entries.reduce((s,e)=>s+(e.debit||0),0);
-    const totalCreditCorrect = op.entries.reduce((s,e)=>s+(e.credit||0),0);
-
     let isCorrect = true;
 
     // شرط: توازن
@@ -259,7 +272,6 @@ function checkEntry(){
     }
 
     // شرط: القيم لكل سطر مطابقه
-    // نتحقق حتى طول قصر (نعتبر 0 حيث لم يدخل المستخدم قيمة)
     for(let i=0;i<op.entries.length;i++){
         const u = user[i] || {debit:0,credit:0};
         const c = op.entries[i] || {debit:0,credit:0};
@@ -314,9 +326,7 @@ function nextOperation(){
         currentIndex++;
         loadOperation(currentIndex);
     } else {
-        // إعادة البداية وإظهار ملخص
         alert('لقد أكملت جميع العمليات. سيتم إعادة البداية.');
-        // ملخص سريع
         alert(`النتيجة: صحيح ${correctScore} — خاطئ ${incorrectScore} — محاولات ${totalAttempts}`);
         currentIndex = 0;
         correctScore = 0; incorrectScore = 0; totalAttempts = 0;
@@ -331,6 +341,7 @@ function nextOperation(){
 checkBtn.addEventListener('click', checkEntry);
 showAnswerBtn.addEventListener('click', showCorrectAnswer);
 nextBtn.addEventListener('click', nextOperation);
+clearBtn.addEventListener('click', clearFields);
 
 // دعم الضغط Enter للتحقق (مهم للموبايل - زر Go)
 document.addEventListener('keydown', function(e){ if(e.key === 'Enter'){ checkEntry(); } });
@@ -338,6 +349,7 @@ document.addEventListener('keydown', function(e){ if(e.key === 'Enter'){ checkEn
 // تهيئة
 loadOperation(currentIndex);
 
+}); // DOMContentLoaded
 </script>
 </body>
 </html>
